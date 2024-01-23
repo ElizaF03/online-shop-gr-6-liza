@@ -1,9 +1,37 @@
 <?php
 
-$username=$_POST['username'];
-$email=$_POST['email'];
-$password=$_POST['password'];
-function validate(array $data):array
+class UserController
+{
+public function getRegistrate()
+{
+require_once './../View/get_registrate.phtml';
+}
+public function postRegistrate()
+{
+    $username=$_POST['username'];
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+
+    $errors =$this->validate($_POST);
+
+    if(empty($errors)){
+        $pdo= new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username:"elizaveta", password:"qwerty");
+        $hash= password_hash($password, PASSWORD_DEFAULT);
+        $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
+        $stmt=$pdo->prepare('SELECT * FROM users WHERE email =:email LIMIT 1');
+        $stmt->execute(['email'=>$email]);
+        $data=$stmt->fetch();
+        if($data === false){
+            $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
+            $stmt->execute(['username'=>$username, 'email'=>$email,'hash'=>$hash]);
+        }else{
+            echo 'Такой позльзователь уже зарегистрирован';
+        }
+    }
+
+    require_once './get_registrate.php';
+}
+private function validate(array $data):array
 {
     $errors = [];
     if (isset($data['username'])) {
@@ -38,24 +66,4 @@ function validate(array $data):array
     }
     return $errors;
 }
-
-$errors =validate($_POST);
-
-if(empty($errors)){
-    $pdo= new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username:"elizaveta", password:"qwerty");
-    $hash= password_hash($password, PASSWORD_DEFAULT);
-    $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
-    $stmt=$pdo->prepare('SELECT * FROM users WHERE email =:email LIMIT 1');
-    $stmt->execute(['email'=>$email]);
-    $data=$stmt->fetch();
-    if($data === false){
-        $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
-        $stmt->execute(['username'=>$username, 'email'=>$email,'hash'=>$hash]);
-    }else{
-        echo 'Такой позльзователь уже зарегистрирован';
-    }
 }
-
-require_once './get_registrate.php';
-
-?>
