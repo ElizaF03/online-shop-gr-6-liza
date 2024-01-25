@@ -1,4 +1,4 @@
-<form class="login" action="post_login.php" method="post">
+<form class="login" action="/login" method="post">
 
         <legend class="legend">Login</legend>
 
@@ -22,9 +22,6 @@
         </div>
 
         <button type="submit" class="submit">Go</button>
-
-
-
 
 </form>
 

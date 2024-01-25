@@ -18,7 +18,11 @@
                                 <?php echo $product['price']; ?></p>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            <form action="/cart" method="post">
+                                <input type="text">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </form>
+
                         </div>
                     </div>
                 </div>

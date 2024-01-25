@@ -1,4 +1,4 @@
-<form class='login-form' action="post_registrate.php" method="post">
+<form class='login-form' action="/registrate" method="post">
     <div class="flex-row logo">
         <h1>LOGO</h1>
     </div>
