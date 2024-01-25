@@ -6,13 +6,13 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - './src/public:/var/www/html'
+      - '.:/var/www/html'
       - './docker/nginx/conf.d:/etc/nginx/conf.d'
   php-fpm:
     build:
       context: ./docker/php
     volumes:
-      - './src/public:/var/www/html'
+      - '.:/var/www/html'
   postgres:
     image: postgres:16
     ports:

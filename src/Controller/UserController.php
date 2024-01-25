@@ -4,7 +4,7 @@ class UserController
 {
 public function getRegistrate()
 {
-require_once './../View/get_registrate.phtml';
+require_once './../View/get_registrate.php';
 }
 public function postRegistrate()
 {
