@@ -18,13 +18,24 @@ public function getCatalog()
     {
         require_once './../View/cart.phtml';
     }
-public function addProduct()
+public function addProductToCart()
 {
-    session_start();
+   //session_start();
     if(!isset($_SESSION['user_id'])){
         header('Location: /get_login.phtml');
-    }
-    //$pdo= new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username:"elizaveta", password:"qwerty");
+    }else{
+        $product_id=$_POST['product_id'];
+        $user_id=$_SESSION['user_id'];
+        require_once './../Model/UserProduct.php';
+        $userProductModel= new UserProduct();
+        $userProductModel->addProduct($user_id, $product_id);
 
+    }
+    require_once './../View/catalog.phtml';
+
+}
+public function getAddProductForm()
+{
+    require_once './../View/catalog.phtml';
 }
 }

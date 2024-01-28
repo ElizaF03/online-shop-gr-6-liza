@@ -25,7 +25,11 @@ if($requestUri ==='/login'){
 }elseif ($requestUri ==='/catalog'){
     require_once './../Controller/ProductController.php';
     $obj= new ProductController();
-    $obj->getCatalog();
+    if($requestMethod==="POST"){
+        $obj->getCatalog();
+        $obj->addProductToCart();
+    }
+
 } elseif ($requestUri ==='/cart'){
     require_once './../Controller/ProductController.php';
     $obj= new ProductController();

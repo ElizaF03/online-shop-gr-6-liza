@@ -9,8 +9,10 @@ public function getAll():array
 $stmt=$this->pdo->query('SELECT * FROM products');
 return $stmt->fetchAll();
 }
-public function getOne()
+public function getOne($id)
 {
-
+    $stmt = $this->pdo->prepare('SELECT * FROM products WHERE id =:id LIMIT 1');
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch();
 }
 }

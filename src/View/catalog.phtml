@@ -1,10 +1,12 @@
+
+
 <div class="container">
     <div class="well well-sm">
         <h1>Catalog</h1>
-
+<div><a href="/cart">Cart</a>  <span> </span></div>
     <div id="products" class="row list-group">
         <?php foreach ($products as $product): ?>
-        <div class="item  col-xs-4 col-lg-4">
+        <div class="item  col-xs-4 col-lg-4"> <form action="/catalog" method="POST">
             <div class="thumbnail">
                 <img class="group list-group-image" src="<?php echo $product['img_url']; ?>" alt="" />
                 <div class="caption">
@@ -18,9 +20,11 @@
                                 <?php echo $product['price']; ?></p>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <form action="/cart" method="post">
+
+                                <input type="text" name="product_id" value="<?php echo $product['id'];?>" hidden="hidden">
                                 <input type="text" name="quantity">
-                                <a class="btn btn-success" href="/cart">Add to cart</a>
+
+                                <button type="submit" class="submit">Add to cart</button>
                             </form>
 
                         </div>
