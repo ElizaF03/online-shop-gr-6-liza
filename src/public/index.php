@@ -27,7 +27,15 @@ if($requestUri ==='/login'){
     $obj= new ProductController();
     if($requestMethod==="POST"){
         $obj->getCatalog();
-        $obj->addProductToCart();
+        //$obj->countProductInCart();
+        if($_POST['button']==='plus'){
+            $obj->addProductToCart();
+
+        }else{
+            $obj->removeProductToCart();
+        }
+    }else{
+        $obj->getCatalog();
     }
 
 } elseif ($requestUri ==='/cart'){

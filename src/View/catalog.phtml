@@ -20,11 +20,11 @@
                                 <?php echo $product['price']; ?></p>
                         </div>
                         <div class="col-xs-12 col-md-6">
+                            <input type="text" name="product_id" value="<?php echo $product['id'];?>" hidden="hidden">
+                            <input type="text" name="quantity" value="1" hidden="hidden">
+                            <button type="submit" class="submit" value="minus" name="button">-</button>
 
-                                <input type="text" name="product_id" value="<?php echo $product['id'];?>" hidden="hidden">
-                                <input type="text" name="quantity">
-
-                                <button type="submit" class="submit">Add to cart</button>
+                            <button type="submit" class="submit" name="button" value="plus">+</button>
                             </form>
 
                         </div>

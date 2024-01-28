@@ -1,12 +1,9 @@
-<?php
-echo 'lol';
 
-?>
 <div class="wrap cf">
     <h1 class="projTitle">Responsive Table<span>-Less</span> Shopping Cart</h1>
     <div class="heading cf">
         <h1>My Cart</h1>
-        <a href="#" class="continue">Continue Shopping</a>
+        <a href="/catalog" class="continue">Continue Shopping</a>
     </div>
     <div class="cart">
         <!--    <ul class="tableHead">
@@ -16,29 +13,24 @@ echo 'lol';
                <li>Remove</li>
             </ul>-->
         <ul class="cartWrap">
+            <?php foreach ($products as $product): ?>
             <li class="items odd">
-
                 <div class="infoWrap">
                     <div class="cartSection">
-                        <img src="http://lorempixel.com/output/technics-q-c-300-300-4.jpg" alt="" class="itemImg" />
-                        <p class="itemNumber">#QUE-007544-002</p>
-                        <h3>Item Name 1</h3>
+                        <div class="photo"  >
+                            <img src="<?php echo $product['img_url']; ?>" alt=""  />
+                        </div>
 
-                        <p> <input type="text"  class="qty" placeholder="3"/> x $5.00</p>
+                        <h3><?php echo $product['name']; ?></h3>
 
-                        <p class="stockStatus"> In Stock</p>
-                    </div>
+                        <p> <input type="text"  class="qty" placeholder="<?php echo $product['quantity']; ?>"/> x <?php echo $product['price']; ?>руб</p>
 
-
-                    <div class="prodTotal cartSection">
-                        <p>$15.00</p>
-                    </div>
                     <div class="cartSection removeWrap">
                         <a href="#" class="remove">x</a>
                     </div>
                 </div>
             </li>
-
+            <?php endforeach;?>
 
 
 
@@ -98,7 +90,7 @@ echo 'lol';
 
     .wrap {
         width: 75%;
-        max-width: 960px;
+
         margin: 0 auto;
         padding: 5% 0;
         margin-bottom: 5em;
@@ -204,9 +196,11 @@ echo 'lol';
                }
                .cartSection {
                    display: table-cell;
-
+                   width: 300px;
                    vertical-align: middle;
-
+img{
+    width: 100%;
+}
 
                    .itemNumber {
                        font-size: .75em;
@@ -473,5 +467,14 @@ echo 'lol';
             text-align: center;
         }
     }
-
+.photo{
+    width: 300px;
+    img{
+        width: 100%;
+    }
+}  .cartWrap{
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
 </style>
