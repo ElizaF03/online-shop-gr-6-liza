@@ -2,34 +2,31 @@
 
 class UserController
 {
+
 public function getRegistrate()
 {
-require_once './../View/get_registrate.php';
+require_once './../View/get_registrate.phtml';
 }
 public function postRegistrate()
 {
     $username=$_POST['username'];
     $email=$_POST['email'];
     $password=$_POST['password'];
-
     $errors =$this->validate($_POST);
 
     if(empty($errors)){
-        $pdo= new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username:"elizaveta", password:"qwerty");
-        $hash= password_hash($password, PASSWORD_DEFAULT);
-        $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
-        $stmt=$pdo->prepare('SELECT * FROM users WHERE email =:email LIMIT 1');
-        $stmt->execute(['email'=>$email]);
-        $data=$stmt->fetch();
+        require_once './../Model/User.php';
+        $userModel= new User();
+        $data=$userModel->lookEmail($email);
         if($data === false){
-            $stmt=$pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
-            $stmt->execute(['username'=>$username, 'email'=>$email,'hash'=>$hash]);
+            $hash= password_hash($password, PASSWORD_DEFAULT);
+            $userModel->addInfo($username,$email,$hash);
         }else{
             echo 'Такой позльзователь уже зарегистрирован';
         }
     }
 
-    require_once './get_registrate.php';
+    require_once './../View/get_registrate.phtml';
 }
 
 private function validate(array $data):array
@@ -67,10 +64,9 @@ private function validate(array $data):array
     }
     return $errors;
 }
-    private function validateLogin(array $data):array
+private function validateLogin(array $data):array
     {
         $errors = [];
-
         if(isset($data['email'])){
             $email= $data['email'];
             if (empty($email)){
@@ -94,7 +90,7 @@ private function validate(array $data):array
     }
 public function getLogin()
 {
-require_once './../View/get_login.php';
+require_once './../View/get_login.phtml';
 }
 public function postLogin()
 {
@@ -102,18 +98,15 @@ public function postLogin()
     $password = $_POST['password'];
     $errors =$this->validateLogin($_POST);
     if (empty($errors)) {
-        $pdo = new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username: "elizaveta", password: "qwerty");
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE email =:email');
-        $stmt->execute(['email'=>$email]);
-        $user = $stmt->fetch();
+        require_once './../Model/User.php';
+        $userModel=new User();
+        $user = $userModel->lookEmail($email);
         if($user === false){
             echo 'Пользователь не зарегистрирован';
         }else{
-
             if(password_verify($password, $user['password'])){
                 session_start();
                 $_SESSION['user_id']=$user['id'];
-
 
                 header('Location: /catalog');
                 echo 'Авторизация прошла успешно' ;
@@ -122,6 +115,6 @@ public function postLogin()
             }
         }
     }
-    require_once './../View/get_login.php';
+    require_once './../View/get_login.phtml';
 }
 }
