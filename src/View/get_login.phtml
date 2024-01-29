@@ -1,34 +1,41 @@
 <form class="login" action="/login" method="post">
 
-        <legend class="legend">Login</legend>
+    <legend class="legend">Login</legend>
 
-        <div class="input">
-            <input type="email" placeholder="Email" name="email" >
-            <?php if (isset($errors['email'])):?>
-                <div style="color: #6c190f">
-                    <?php echo $errors['email'];?>
-                </div>
-            <?php  endif; ?>
-            <span><i class="fa fa-envelope-o"></i></span>
-        </div>
+    <div class="input">
+        <input type="email" placeholder="Email" name="email">
+        <?php if (isset($errors['email'])): ?>
+            <div style="color: #6c190f">
+                <?php echo $errors['email']; ?>
+            </div>
+        <?php endif; ?>
+        <span><i class="fa fa-envelope-o"></i></span>
+    </div>
 
-        <div class="input">
-            <input type="password" placeholder="Password" name="password" ><?php if (isset($errors['password'])):?>
-                <div style="color: #6c190f">
-                    <?php echo $errors['password'];?>
-                </div>
-            <?php  endif; ?>
-            <span><i class="fa fa-lock"></i></span>
-        </div>
+    <div class="input">
+        <input type="password" placeholder="Password" name="password"><?php if (isset($errors['password'])): ?>
+            <div style="color: #6c190f">
+                <?php echo $errors['password']; ?>
+            </div>
+        <?php endif; ?>
+        <span><i class="fa fa-lock"></i></span>
+    </div>
 
-        <button type="submit" class="submit">Go</button>
+    <button type="submit" class="submit">Go</button>
 
 </form>
 
 <style>
-    // Set background image (pattern)
+    /
+    /
+    Set background image
 
-    *{
+    (
+    pattern
+
+    )
+
+    * {
         -ms-box-sizing: border-box;
         -moz-box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -38,7 +45,7 @@
         border: 0;
     }
 
-    html, body{
+    html, body {
         width: 100%;
         height: 100%;
         background: url(https://subtlepatterns.com/patterns/sativa.png) repeat fixed;
@@ -47,17 +54,17 @@
     }
 
 
-       .login{
-           position: relative;
-           top: 50%;
-           width: 250px;
-           display: table;
-           margin: -150px auto 0 auto;
-           background: #fff;
-           border-radius: 4px;
-       }
+    .login {
+        position: relative;
+        top: 50%;
+        width: 250px;
+        display: table;
+        margin: -150px auto 0 auto;
+        background: #fff;
+        border-radius: 4px;
+    }
 
-    .legend{
+    .legend {
         position: relative;
         width: 300px;
         display: block;
@@ -66,7 +73,7 @@
         color: #fff;
         font-size: 20px;
 
-        &:after{
+        &:after {
             content: "";
             background-image: url(http://simpleicon.com/wp-content/uploads/multy-user.png);
             background-size: 100px 100px;
@@ -81,12 +88,12 @@
         }
     }
 
-    .input{
+    .input {
         position: relative;
         width: 300px;
         margin: 15px auto;
 
-        span{
+        span {
             position: absolute;
             display: block;
             color: darken(#EDEDED, 10%);
@@ -95,7 +102,7 @@
             font-size: 20px;
         }
 
-        input{
+        input {
             width: 100%;
             padding: 10px 5px 10px 40px;
             display: block;
@@ -104,7 +111,7 @@
             transition: 0.2s ease-out;
             color: darken(#EDEDED, 30%);
 
-            &:focus{
+            &:focus {
                 padding: 10px 5px 10px 10px;
                 outline: 0;
                 border-color: #FF7052;
@@ -112,7 +119,7 @@
         }
     }
 
-    .submit{
+    .submit {
         width: 45px;
         height: 45px;
         display: block;
@@ -126,14 +133,14 @@
         box-shadow: 0px 0px 0px 7px #fff;
         transition: 0.2s ease-out;
 
-        &:hover, &:focus{
+        &:hover, &:focus {
             background: #FF7052;
             color: #fff;
             outline: 0;
         }
     }
 
-    .feedback{
+    .feedback {
         position: absolute;
         bottom: -70px;
         width: 100%;
@@ -145,7 +152,7 @@
         display: none;
         opacity: 0;
 
-        &:before{
+        &:before {
             bottom: 100%;
             left: 50%;
             border: solid transparent;

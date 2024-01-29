@@ -1,5 +1,6 @@
-
 <div class="wrap cf">
+
+
     <h1 class="projTitle">Responsive Table<span>-Less</span> Shopping Cart</h1>
     <div class="heading cf">
         <h1>My Cart</h1>
@@ -13,25 +14,29 @@
                <li>Remove</li>
             </ul>-->
         <ul class="cartWrap">
-            <?php foreach ($products as $product): ?>
-            <li class="items odd">
-                <div class="infoWrap">
-                    <div class="cartSection">
-                        <div class="photo"  >
-                            <img src="<?php echo $product['img_url']; ?>" alt=""  />
+
+            <?php foreach ($products as $product):
+
+                ?>
+
+                <li class="items odd">
+                    <div class="infoWrap">
+                        <div class="cartSection">
+                            <div class="photo">
+                                <img src="<?php echo $product['img_url']; ?>" alt=""/>
+                            </div>
+
+                            <h3><?php echo $product['name']; ?></h3>
+
+                            <p><input type="text" class="qty" placeholder="<?php echo $product['quantity']; ?>"/>
+                                x <?php echo $product['price']; ?>руб</p>
+
+                            <div class="cartSection removeWrap">
+                                <a href="#" class="remove">x</a>
+                            </div>
                         </div>
-
-                        <h3><?php echo $product['name']; ?></h3>
-
-                        <p> <input type="text"  class="qty" placeholder="<?php echo $product['quantity']; ?>"/> x <?php echo $product['price']; ?>руб</p>
-
-                    <div class="cartSection removeWrap">
-                        <a href="#" class="remove">x</a>
-                    </div>
-                </div>
-            </li>
-            <?php endforeach;?>
-
+                </li>
+            <?php endforeach; ?>
 
 
             <!--<li class="items even">Item 2</li>-->
@@ -39,17 +44,24 @@
         </ul>
     </div>
 
-    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo"
+                                                                               placholder="Enter Code"/>
         <a href="#" class="btn"></a></div>
 
     <div class="subtotal cf">
         <ul>
-            <li class="totalRow"><span class="label">Subtotal</span><span class="value">$35.00</span></li>
 
-            <li class="totalRow"><span class="label">Shipping</span><span class="value">$5.00</span></li>
 
-            <li class="totalRow"><span class="label">Tax</span><span class="value">$4.00</span></li>
-            <li class="totalRow final"><span class="label">Total</span><span class="value">$44.00</span></li>
+            <li class="totalRow final"><span class="label">Total</span><span class="value">
+                    <?php
+                    $sum = 0;
+                    foreach ($products as $product):
+                        $price = $product['quantity'] * $product['price'];
+                        $sum = $sum + $price;
+                    endforeach; ?>
+                    <?php echo $sum;
+                    ?>
+                руб</span></li>
             <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
         </ul>
     </div>
@@ -59,33 +71,60 @@
 
     @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic|Montserrat:400,700);
     @import "compass/reset";
-    $fontSans : 'Montserrat', sans-serif;
-    $fontSerif : 'Droid Serif', serif;
+
+    $
+    fontSans :
+
+    'Montserrat'
+    ,
+    sans-serif
+
+    ;
+    $
+    fontSerif :
+
+    'Droid Serif'
+    ,
+    serif
+
+    ;
 
 
     @mixin transition($transition-property, $transition-time, $method) {
-        -webkit-transition: $transition-property $transition-time $method;
-        -moz-transition: $transition-property $transition-time $method;
-        -ms-transition: $transition-property $transition-time $method;
-        -o-transition: $transition-property $transition-time $method;
-        transition: $transition-property $transition-time $method;
+        -webkit-transition: $ transition-property $ transition-time $ method;
+        -moz-transition: $ transition-property $ transition-time $ method;
+        -ms-transition: $ transition-property $ transition-time $ method;
+        -o-transition: $ transition-property $ transition-time $ method;
+        transition: $ transition-property $ transition-time $ method;
     }
-    *{ box-sizing:border-box;}
-
+    * {
+        box-sizing: border-box;
+    }
 
 
     body {
         color: #333;
         -webkit-font-smoothing: antialiased;
-        font-family: $fontSerif;
+        font-family: $ fontSerif;
 
     }
+
     img {
-        max-width:100%;
+        max-width: 100%;
     }
-    .cf:before,.cf:after {content: " ";display: table;}
-    .cf:after {clear: both;}
-    .cf {*zoom: 1;}
+
+    .cf:before, .cf:after {
+        content: " ";
+        display: table;
+    }
+
+    .cf:after {
+        clear: both;
+    }
+
+    .cf {
+        *zoom: 1;
+    }
 
 
     .wrap {
@@ -98,7 +137,7 @@
     }
 
     .projTitle {
-        font-family: $fontSans;
+        font-family: $ fontSans;
         font-weight: bold;
         text-align: center;
         font-size: 2em;
@@ -106,8 +145,9 @@
         border-bottom: 1px solid #dadada;
         letter-spacing: 3px;
         text-transform: uppercase;
+
         span {
-            font-family: $fontSerif;
+            font-family: $ fontSerif;
             font-weight: normal;
             font-style: italic;
             text-transform: lowercase;
@@ -115,186 +155,210 @@
 
         }
     }
-    // CART HEADER
-       .heading {
-           padding: 1em 0;
-           border-bottom: 1px solid #D0D0D0;
 
-           h1 {
-               font-family: $fontSerif;
-               font-size: 2em;
-               float: left;
-           }
-           a.continue {
-               &:link , &:visited {
-                   text-decoration: none;
-                   font-family: $fontSans;
-                   letter-spacing: -.015em;
-                   font-size: .75em;
-                   padding: 1em;
-                   color: #fff;
-                   background: #82ca9c;
-                   font-weight: bold;
-                   border-radius: 50px;
-                   float: right;
-                   text-align: right;
-                   @include transition(all, .25s, linear);
-               }
-               &:after {
-                   content: "\276f";
-                   padding: .5em;
-                   position: relative;
-                   right:0;
-                   @include transition(all, .15s, linear);
+    /
+    /
+    CART HEADER
+    .heading {
+        padding: 1em 0;
+        border-bottom: 1px solid #D0D0D0;
 
-               }
-               &:hover , &:focus, &:active {
-                   background: #f69679;
+        h1 {
+            font-family: $ fontSerif;
+            font-size: 2em;
+            float: left;
+        }
 
-                   &:after {
-                       right: -10px;
-                   }
-               }
-           }
-       }
+        a.continue {
+            &:link, &:visited {
+                text-decoration: none;
+                font-family: $ fontSans;
+                letter-spacing: -.015em;
+                font-size: .75em;
+                padding: 1em;
+                color: #fff;
+                background: #82ca9c;
+                font-weight: bold;
+                border-radius: 50px;
+                float: right;
+                text-align: right;
+                @include transition(all, .25s, linear);
+            }
 
-    // TABLE HEADING
+            &:after {
+                content: "\276f";
+                padding: .5em;
+                position: relative;
+                right: 0;
+                @include transition(all, .15s, linear);
 
-       .tableHead {
-           display: table;
-           width: 100%;
-           font-family: $fontSans;
-           font-size: .75em;
-           li {
-               display: table-cell;
-               padding: 1em 0;
-               text-align: center;
-               &.prodHeader {
-                   text-align: left;
-               }
-           }
-       }
+            }
 
-    // CART Items
+            &:hover, &:focus, &:active {
+                background: #f69679;
 
-       .cart {
-           padding: 1em 0 ;
+                &:after {
+                    right: -10px;
+                }
+            }
+        }
+    }
 
-           .items {
-               display: block;
-               width: 100%;
-               vertical-align: middle;
-               padding: 1.5em;
+    /
+    /
+    TABLE HEADING
+    .tableHead {
+        display: table;
+        width: 100%;
+        font-family: $ fontSans;
+        font-size: .75em;
 
-               border-bottom: 1px solid #fafafa;
-               &.even {
-                   background: #fafafa;
-               }
-               .infoWrap {
-                   display: table;
-                   width: 100%;
-               }
-               .cartSection {
-                   display: table-cell;
-                   width: 300px;
-                   vertical-align: middle;
-img{
-    width: 100%;
-}
+        li {
+            display: table-cell;
+            padding: 1em 0;
+            text-align: center;
 
-                   .itemNumber {
-                       font-size: .75em;
-                       color: #777;
-                       margin-bottom: .5em;
-                   }
+            &.prodHeader {
+                text-align: left;
+            }
+        }
+    }
 
-                   h3 {
+    /
+    /
+    CART Items
+    .cart {
+        padding: 1em 0;
 
-                       font-size: 1em;
-                       font-family: $fontSans;
-                       font-weight: bold;
-                       text-transform: uppercase;
-                       letter-spacing: .025em;
+        .items {
+            display: block;
+            width: 100%;
+            vertical-align: middle;
+            padding: 1.5em;
 
+            border-bottom: 1px solid #fafafa;
 
-                   }
-                   p {
-                       display: inline-block;
-                       font-size: .85em;
+            &.even {
+                background: #fafafa;
+            }
 
-                       color: #777777;
-                       font-family: $fontSans;
-                       .quantity {
-                           font-weight: bold;
-                           color: #333;
-                       }
+            .infoWrap {
+                display: table;
+                width: 100%;
+            }
 
-                       &.stockStatus {
-                           color: #82CA9C;
-                           font-weight: bold;
-                           padding: .5em 0 0 1em;
-                           text-transform: uppercase;
-                           &.out {
-                               color: #F69679;
-                           }
-                       }
+            .cartSection {
+                display: table-cell;
+                width: 300px;
+                vertical-align: middle;
 
-                   }
-                   .itemImg {
-                       width: 4em;
+                img {
+                    width: 100%;
+                }
 
-                       float: left;
-                   }
-                   &.qtyWrap , &.prodTotal {
-                       text-align: center;
-                       p {
-                           font-weight: bold;
-                           font-size: 1.25em;
-                       }
+                .itemNumber {
+                    font-size: .75em;
+                    color: #777;
+                    margin-bottom: .5em;
+                }
 
-                   }
+                h3 {
 
-                   input.qty {
-                       width: 2em;
-                       text-align: center;
-                       font-size: 1em;
-                       padding: .25em;
-                       margin: 1em .5em 0 0;
-
-                   }
-                   .itemImg {
-                       width: 8em;
-                       display: inline;
-                       padding-right: 1em;
-                   }
+                    font-size: 1em;
+                    font-family: $ fontSans;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing: .025em;
 
 
-               }
-           }
+                }
 
-       }
+                p {
+                    display: inline-block;
+                    font-size: .85em;
+
+                    color: #777777;
+                    font-family: $ fontSans;
+
+                    .quantity {
+                        font-weight: bold;
+                        color: #333;
+                    }
+
+                    &.stockStatus {
+                        color: #82CA9C;
+                        font-weight: bold;
+                        padding: .5em 0 0 1em;
+                        text-transform: uppercase;
+
+                        &.out {
+                            color: #F69679;
+                        }
+                    }
+
+                }
+
+                .itemImg {
+                    width: 4em;
+
+                    float: left;
+                }
+
+                &.qtyWrap, &.prodTotal {
+                    text-align: center;
+
+                    p {
+                        font-weight: bold;
+                        font-size: 1.25em;
+                    }
+
+                }
+
+                input.qty {
+                    width: 2em;
+                    text-align: center;
+                    font-size: 1em;
+                    padding: .25em;
+                    margin: 1em .5em 0 0;
+
+                }
+
+                .itemImg {
+                    width: 8em;
+                    display: inline;
+                    padding-right: 1em;
+                }
+
+
+            }
+        }
+
+    }
 
     .special {
         display: block;
-        font-family: $fontSans;
+        font-family: $ fontSans;
+
         .specialContent {
             padding: 1em 1em 0;
             display: block;
-            margin-top:.5em;
+            margin-top: .5em;
             border-top: 1px solid #dadada;
+
             &:before {
                 content: "\21b3";
                 font-size: 1.5em;
                 margin-right: 1em;
                 color: #6f6f6f;
                 font-family: helvetica, arial, sans-serif;
-            }}
+            }
+        }
 
     }
 
     a.remove {
         text-decoration: none;
-        font-family: $fontSans;
+        font-family: $ fontSans;
         color: #ffffff;
         font-weight: bold;
         background: #e0e0e0;
@@ -304,16 +368,18 @@ img{
         border-radius: 100%;
         line-height: .85;
         @include transition(all, .25s, linear);
+
         &:hover {
             background: #f30;
         }
     }
 
     .promoCode {
-        border:2px solid #efefef;
+        border: 2px solid #efefef;
         float: left;
         width: 35%;
         padding: 2%;
+
         label {
             display: block;
             width: 100%;
@@ -324,17 +390,20 @@ img{
             letter-spacing: -.025em;
 
         }
+
         input {
             width: 85%;
             font-size: 1em;
             padding: .5em;
             float: left;
             border: 1px solid #dadada;
+
             &:active, &:focus {
                 outline: 0;
 
             }
         }
+
         a.btn {
             float: left;
             width: 15%;
@@ -342,6 +411,7 @@ img{
             border-radius: 0 1em 1em 0;
             text-align: center;
             border: 1px solid #82ca9c;
+
             &:hover {
                 border: 1px solid #f69679;
                 background: #f69679;
@@ -350,9 +420,9 @@ img{
     }
 
     .btn {
-        &:link , &:visited {
+        &:link, &:visited {
             text-decoration: none;
-            font-family: $fontSans;
+            font-family: $ fontSans;
             letter-spacing: -.015em;
             font-size: 1em;
             padding: 1em 3em;
@@ -364,16 +434,19 @@ img{
             text-align: right;
             @include transition(all, .25s, linear);
         }
+
         &:after {
             content: "\276f";
             padding: .5em;
             position: relative;
-            right:0;
+            right: 0;
             @include transition(all, .15s, linear);
 
         }
-        &:hover , &:focus, &:active {
+
+        &:hover, &:focus, &:active {
             background: #f69679;
+
             &:after {
                 right: -10px;
             }
@@ -389,6 +462,7 @@ img{
     .subtotal {
         float: right;
         width: 35%;
+
         .totalRow {
             padding: .5em;
             text-align: right;
@@ -397,18 +471,21 @@ img{
                 font-size: 1.25em;
                 font-weight: bold;
             }
+
             span {
                 display: inline-block;
                 padding: 0 0 0 1em;
                 text-align: right;
 
             }
+
             .label {
-                font-family: $fontSans;
+                font-family: $ fontSans;
                 font-size: .85em;
                 text-transform: uppercase;
                 color: #777;
             }
+
             .value {
 
                 letter-spacing: -.025em;
@@ -417,48 +494,58 @@ img{
         }
     }
 
-    @media only screen and (max-width:39.375em){
+    @media only screen and (max-width: 39.375em) {
 
         .wrap {
             width: 98%;
             padding: 2% 0;
         }
-        .projTitle{
+
+        .projTitle {
             font-size: 1.5em;
             padding: 10% 5%;
         }
+
         .heading {
             padding: 1em;
             font-size: 90%;
         }
+
         .cart {
             .items {
 
                 .cartSection {
                     width: 90%;
-                    display: block;float: left;
+                    display: block;
+                    float: left;
+
                     &.qtyWrap {
                         width: 10%;
                         text-align: center;
                         padding: .5em 0;
                         float: right;
+
                         &:before {
                             content: "QTY";
                             display: block;
-                            font-family: $fontSans;
+                            font-family: $ fontSans;
                             padding: .25em;
                             font-size: .75em;
                         }
                     }
-                    &.prodTotal , &.removeWrap {
+
+                    &.prodTotal, &.removeWrap {
                         display: none;
                     }
+
                     .itemImg {
                         width: 25%;
                     }
                 }
-            }}
-        .promoCode , .subtotal{
+            }
+        }
+
+        .promoCode, .subtotal {
             width: 100%;
         }
 
@@ -467,12 +554,16 @@ img{
             text-align: center;
         }
     }
-.photo{
-    width: 300px;
-    img{
-        width: 100%;
+
+    .photo {
+        width: 300px;
+
+        img {
+            width: 100%;
+        }
     }
-}  .cartWrap{
+
+    .cartWrap {
         display: flex;
         gap: 30px;
         flex-wrap: wrap;
