@@ -2,8 +2,26 @@
 
 $requestUri = $_SERVER['REQUEST_URI'];
 $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+$controllerAutoloader=function (string $class){
+    $path= "./../Controller/$class.php";
+    if(file_exists($path)){
+        require_once $path;
+        return true;
+    }
+    return false;
+};
+$modelAutoloader= function (string $class){
+    $path="./../Model/$class.php";
+    if(file_exists($path)){
+        require_once $path;
+        return true;
+    }
+    return false;
+};
+spl_autoload_register($controllerAutoloader);
+spl_autoload_register($modelAutoloader);
 if ($requestUri === '/login') {
-    require_once './../Controller/UserController.php';
     $obj = new UserController();
     if ($requestMethod === 'GET') {
         $obj->getLogin();
@@ -13,7 +31,6 @@ if ($requestUri === '/login') {
         echo "Метод $requestMethod поддерживается для адреса $requestUri";
     }
 } elseif ($requestUri === '/registrate') {
-    require_once './../Controller/UserController.php';
     $obj = new UserController();
     if ($requestMethod === 'GET') {
         $obj->getRegistrate();
@@ -23,7 +40,6 @@ if ($requestUri === '/login') {
         echo "Метод $requestMethod поддерживается для адреса $requestUri";
     }
 } elseif ($requestUri === '/catalog') {
-    require_once './../Controller/ProductController.php';
     $obj = new ProductController();
     $obj->getCatalog();
     if ($requestMethod === "POST") {
@@ -37,7 +53,6 @@ if ($requestUri === '/login') {
         }
     }
 } elseif ($requestUri === '/cart') {
-    require_once './../Controller/ProductController.php';
     $obj = new ProductController();
     $obj->getCart();
 } else {
