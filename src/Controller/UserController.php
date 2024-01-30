@@ -1,5 +1,9 @@
 <?php
 
+namespace Controller;
+
+use Model\User;
+
 class UserController
 {
 
@@ -16,7 +20,6 @@ class UserController
         $errors = $this->validate($_POST);
 
         if (empty($errors)) {
-            require_once './../Model/User.php';
             $userModel = new User();
             $data = $userModel->lookEmail($email);
             if ($data === false) {
@@ -102,7 +105,6 @@ class UserController
         $password = $_POST['password'];
         $errors = $this->validateLogin($_POST);
         if (empty($errors)) {
-            require_once './../Model/User.php';
             $userModel = new User();
             $user = $userModel->lookEmail($email);
             if ($user === false) {

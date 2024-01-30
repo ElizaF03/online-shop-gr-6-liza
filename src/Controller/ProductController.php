@@ -1,15 +1,27 @@
 <?php
 
+namespace Controller;
+
+use Model\Product;
+use Model\UserProduct;
+
 class ProductController
 {
+    private Product $product;
+    private UserProduct $userProduct;
+
+    public function __construct()
+    {
+        $this->product = new Product();
+        $this->userProduct = new UserProduct();
+    }
+
     public function getCatalog()
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
         }
-
-        require_once './../Model/Product.php';
         $productModel = new Product();
         $products = $productModel->getAll();
         require_once './../View/catalog.phtml';
@@ -22,7 +34,6 @@ class ProductController
             header('Location: /login');
         }
         $userId = $_SESSION['user_id'];
-        require_once './../Model/UserProduct.php';
         $userProductModel = new UserProduct();
         $products = $userProductModel->getAll($userId);
         require_once './../View/cart.phtml';
@@ -36,7 +47,6 @@ class ProductController
             $product_id = $_POST['product_id'];
             $quantity = $_POST['quantity'];
             $user_id = $_SESSION['user_id'];
-            require_once './../Model/UserProduct.php';
             $userProductModel = new UserProduct();
             $cart = $userProductModel->getOne($user_id, $product_id);
             if ($_POST['button'] === 'plus') {
@@ -61,7 +71,6 @@ class ProductController
             $product_id = $_POST['product_id'];
             $quantity = $_POST['quantity'];
             $user_id = $_SESSION['user_id'];
-            require_once './../Model/UserProduct.php';
             $userProductModel = new UserProduct();
             $quantity = $userProductModel->getQuantity($user_id, $product_id);
             if ($_POST['button'] === 'minus') {
@@ -81,7 +90,6 @@ class ProductController
     public function countProductInCart()
     {
         $user_id = $_SESSION['user_id'];
-        require_once './../Model/UserProduct.php';
         $userProductModel = new UserProduct();
         $productsInCart = $userProductModel->getAll($user_id);
         $sum = 0;

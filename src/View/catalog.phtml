@@ -5,7 +5,10 @@
         <h1>Catalog</h1>
         <div style="font-size: 30px"><a href="/cart">Cart</a> <span>
         <?php
-        require_once './../Controller/ProductController.php';
+
+        use Controller\ProductController;
+
+       // require_once './../Controller/ProductController.php';
         $obj = new ProductController();
         $sum = $obj->countProductInCart();
         print_r($sum);
