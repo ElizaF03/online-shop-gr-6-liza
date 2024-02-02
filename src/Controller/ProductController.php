@@ -7,27 +7,19 @@ use Model\UserProduct;
 
 class ProductController
 {
-    private Product $product;
-    private UserProduct $userProduct;
-
-    public function __construct()
-    {
-        $this->product = new Product();
-        $this->userProduct = new UserProduct();
-    }
-
-    public function getCatalog()
+    public function getCatalog(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
         }
         $productModel = new Product();
+        $quantityProducts = $this->countProductInCart();
         $products = $productModel->getAll();
         require_once './../View/catalog.phtml';
     }
 
-    public function getCart()
+    public function getCart(): void
     {
         session_start();
         if (!isset($_SESSION['user_id'])) {
@@ -35,59 +27,66 @@ class ProductController
         }
         $userId = $_SESSION['user_id'];
         $userProductModel = new UserProduct();
+        $cost = $this->countCost();
         $products = $userProductModel->getAll($userId);
         require_once './../View/cart.phtml';
     }
 
-    public function addProductToCart()
+    public function addProductToCart(): void
     {
+        session_start();
         if (!isset($_SESSION['user_id'])) {
-            header('Location: /get_login.phtml');
+            header('Location: /login');
         } else {
             $product_id = $_POST['product_id'];
             $quantity = $_POST['quantity'];
             $user_id = $_SESSION['user_id'];
             $userProductModel = new UserProduct();
-            $cart = $userProductModel->getOne($user_id, $product_id);
+            $userProduct = $userProductModel->getOne($user_id, $product_id);
             if ($_POST['button'] === 'plus') {
-                if (empty($cart)) {
+                if (empty($userProduct)) {
                     $userProductModel->createProductInCart($user_id, $product_id, $quantity);
                 } else {
                     $userProductModel->addProduct($product_id, $user_id);
                 }
             }
         }
-
-
+        $productModel = new Product();
+        $quantityProducts = $this->countProductInCart();
+        $products = $productModel->getAll();
         require_once './../View/catalog.phtml';
-
     }
 
-    public function removeProductToCart()
+    public function removeProductFromCart(): void
     {
+        session_start();
         if (!isset($_SESSION['user_id'])) {
-            header('Location: /get_login.phtml');
+            header('Location: /login');
         } else {
             $product_id = $_POST['product_id'];
-            $quantity = $_POST['quantity'];
             $user_id = $_SESSION['user_id'];
             $userProductModel = new UserProduct();
             $quantity = $userProductModel->getQuantity($user_id, $product_id);
+            $userProduct = $userProductModel->getOne($user_id, $product_id);
             if ($_POST['button'] === 'minus') {
-                if ($quantity[0] <= 1) {
-                    $userProductModel->deleteProductInCart($user_id, $product_id);
-                } else {
-                    $userProductModel->minusProduct($product_id, $user_id);
+                if (!empty($userProduct)) {
+                    if ($quantity[0] <= 1) {
+                        $userProductModel->deleteProductFromCart($user_id, $product_id);
+                    } else {
+                        $userProductModel->minusProduct($product_id, $user_id);
+                    }
                 }
+
             }
         }
-
-
+        $productModel = new Product();
+        $quantityProducts = $this->countProductInCart();
+        $products = $productModel->getAll();
         require_once './../View/catalog.phtml';
-
     }
 
-    public function countProductInCart()
+
+    public function countProductInCart():int
     {
         $user_id = $_SESSION['user_id'];
         $userProductModel = new UserProduct();
@@ -97,6 +96,18 @@ class ProductController
             $sum = $sum + $product['quantity'];
         }
         return $sum;
+    }
 
+    public function countCost():int
+    {
+        $user_id = $_SESSION['user_id'];
+        $userProductModel = new UserProduct();
+        $productsInCart = $userProductModel->getAll($user_id);
+        $sum = 0;
+        foreach ($productsInCart as $product) {
+            $price = $product['quantity'] * $product['price'];
+            $sum = $sum + $price;
+        }
+        return $sum;
     }
 }

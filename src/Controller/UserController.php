@@ -6,13 +6,17 @@ use Model\User;
 
 class UserController
 {
-
-    public function getRegistrate()
+private User $user;
+public function __construct()
+{
+$this->user= new User();
+}
+    public function getRegistrate(): void
     {
         require_once './../View/get_registrate.phtml';
     }
 
-    public function postRegistrate()
+    public function postRegistrate(): void
     {
         $username = $_POST['username'];
         $email = $_POST['email'];
@@ -94,12 +98,12 @@ class UserController
         return $errors;
     }
 
-    public function getLogin()
+    public function getLogin(): void
     {
         require_once './../View/get_login.phtml';
     }
 
-    public function postLogin()
+    public function postLogin(): void
     {
         $email = $_POST['email'];
         $password = $_POST['password'];

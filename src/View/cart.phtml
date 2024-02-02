@@ -1,18 +1,16 @@
 <div class="wrap cf">
-
-
-    <h1 class="projTitle">Responsive Table<span>-Less</span> Shopping Cart</h1>
-    <div class="heading cf">
-        <h1>My Cart</h1>
-        <a href="/catalog" class="continue">Continue Shopping</a>
+    <div class="cart"><h1>My Cart</h1>
+        <div class="ctalog"><a href="/catalog">Catalog</a> </div>
+        <div class="subtotal cf">
+            <ul>
+                <li class="totalRow final"><span class="label">Total</span><span class="value">
+                        <?php echo $cost;
+                        ?>
+                руб</span></li>
+                <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="cart">
-        <!--    <ul class="tableHead">
-              <li class="prodHeader">Product</li>
-              <li>Quantity</li>
-              <li>Total</li>
-               <li>Remove</li>
-            </ul>-->
         <ul class="cartWrap">
 
             <?php foreach ($products as $product):
@@ -44,28 +42,9 @@
         </ul>
     </div>
 
-    <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo"
-                                                                               placholder="Enter Code"/>
-        <a href="#" class="btn"></a></div>
-
-    <div class="subtotal cf">
-        <ul>
 
 
-            <li class="totalRow final"><span class="label">Total</span><span class="value">
-                    <?php
-                    $sum = 0;
-                    foreach ($products as $product):
-                        $price = $product['quantity'] * $product['price'];
-                        $sum = $sum + $price;
-                    endforeach; ?>
-                    <?php echo $sum;
-                    ?>
-                руб</span></li>
-            <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
-        </ul>
-    </div>
-</div>
+
 <style>
     @import "compass/css3";
 
@@ -102,130 +81,26 @@
     }
 
 
-    body {
-        color: #333;
-        -webkit-font-smoothing: antialiased;
-        font-family: $ fontSerif;
 
-    }
 
     img {
         max-width: 100%;
     }
 
-    .cf:before, .cf:after {
-        content: " ";
-        display: table;
-    }
 
-    .cf:after {
-        clear: both;
-    }
 
-    .cf {
-        *zoom: 1;
-    }
 
 
     .wrap {
-        width: 75%;
+        width: 1300px;
 
         margin: 0 auto;
-        padding: 5% 0;
-        margin-bottom: 5em;
+
+
 
     }
 
-    .projTitle {
-        font-family: $ fontSans;
-        font-weight: bold;
-        text-align: center;
-        font-size: 2em;
-        padding: 1em 0;
-        border-bottom: 1px solid #dadada;
-        letter-spacing: 3px;
-        text-transform: uppercase;
 
-        span {
-            font-family: $ fontSerif;
-            font-weight: normal;
-            font-style: italic;
-            text-transform: lowercase;
-            color: #777;
-
-        }
-    }
-
-    /
-    /
-    CART HEADER
-    .heading {
-        padding: 1em 0;
-        border-bottom: 1px solid #D0D0D0;
-
-        h1 {
-            font-family: $ fontSerif;
-            font-size: 2em;
-            float: left;
-        }
-
-        a.continue {
-            &:link, &:visited {
-                text-decoration: none;
-                font-family: $ fontSans;
-                letter-spacing: -.015em;
-                font-size: .75em;
-                padding: 1em;
-                color: #fff;
-                background: #82ca9c;
-                font-weight: bold;
-                border-radius: 50px;
-                float: right;
-                text-align: right;
-                @include transition(all, .25s, linear);
-            }
-
-            &:after {
-                content: "\276f";
-                padding: .5em;
-                position: relative;
-                right: 0;
-                @include transition(all, .15s, linear);
-
-            }
-
-            &:hover, &:focus, &:active {
-                background: #f69679;
-
-                &:after {
-                    right: -10px;
-                }
-            }
-        }
-    }
-
-    /
-    /
-    TABLE HEADING
-    .tableHead {
-        display: table;
-        width: 100%;
-        font-family: $ fontSans;
-        font-size: .75em;
-
-        li {
-            display: table-cell;
-            padding: 1em 0;
-            text-align: center;
-
-            &.prodHeader {
-                text-align: left;
-            }
-        }
-    }
-
-    /
-    /
     CART Items
     .cart {
         padding: 1em 0;
@@ -234,8 +109,7 @@
             display: block;
             width: 100%;
             vertical-align: middle;
-            padding: 1.5em;
-
+            padding: 1em;
             border-bottom: 1px solid #fafafa;
 
             &.even {
@@ -254,12 +128,6 @@
 
                 img {
                     width: 100%;
-                }
-
-                .itemNumber {
-                    font-size: .75em;
-                    color: #777;
-                    margin-bottom: .5em;
                 }
 
                 h3 {
@@ -285,34 +153,9 @@
                         color: #333;
                     }
 
-                    &.stockStatus {
-                        color: #82CA9C;
-                        font-weight: bold;
-                        padding: .5em 0 0 1em;
-                        text-transform: uppercase;
-
-                        &.out {
-                            color: #F69679;
-                        }
-                    }
 
                 }
 
-                .itemImg {
-                    width: 4em;
-
-                    float: left;
-                }
-
-                &.qtyWrap, &.prodTotal {
-                    text-align: center;
-
-                    p {
-                        font-weight: bold;
-                        font-size: 1.25em;
-                    }
-
-                }
 
                 input.qty {
                     width: 2em;
@@ -323,11 +166,7 @@
 
                 }
 
-                .itemImg {
-                    width: 8em;
-                    display: inline;
-                    padding-right: 1em;
-                }
+
 
 
             }
@@ -335,26 +174,6 @@
 
     }
 
-    .special {
-        display: block;
-        font-family: $ fontSans;
-
-        .specialContent {
-            padding: 1em 1em 0;
-            display: block;
-            margin-top: .5em;
-            border-top: 1px solid #dadada;
-
-            &:before {
-                content: "\21b3";
-                font-size: 1.5em;
-                margin-right: 1em;
-                color: #6f6f6f;
-                font-family: helvetica, arial, sans-serif;
-            }
-        }
-
-    }
 
     a.remove {
         text-decoration: none;
@@ -496,20 +315,7 @@
 
     @media only screen and (max-width: 39.375em) {
 
-        .wrap {
-            width: 98%;
-            padding: 2% 0;
-        }
 
-        .projTitle {
-            font-size: 1.5em;
-            padding: 10% 5%;
-        }
-
-        .heading {
-            padding: 1em;
-            font-size: 90%;
-        }
 
         .cart {
             .items {
@@ -529,7 +335,6 @@
                             content: "QTY";
                             display: block;
                             font-family: $ fontSans;
-                            padding: .25em;
                             font-size: .75em;
                         }
                     }
@@ -556,7 +361,7 @@
     }
 
     .photo {
-        width: 300px;
+        width: 200px;
 
         img {
             width: 100%;

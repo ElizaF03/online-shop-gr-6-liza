@@ -5,46 +5,47 @@ use Controller\UserController;
 
 class App
 {
-public function run(): void
-{
-    $requestUri = $_SERVER['REQUEST_URI'];
-    $requestMethod = $_SERVER['REQUEST_METHOD'];
-    if ($requestUri === '/login') {
-        $obj = new UserController();
-        if ($requestMethod === 'GET') {
-            $obj->getLogin();
-        } elseif ($requestMethod === 'POST') {
-            $obj->postLogin();
-        } else {
-            echo "Метод $requestMethod поддерживается для адреса $requestUri";
-        }
-    } elseif ($requestUri === '/registrate') {
-        $obj = new UserController();
-        if ($requestMethod === 'GET') {
-            $obj->getRegistrate();
-        } elseif ($requestMethod === 'POST') {
-            $obj->postRegistrate();
-        } else {
-            echo "Метод $requestMethod поддерживается для адреса $requestUri";
-        }
-    } elseif ($requestUri === '/catalog') {
-        $obj = new ProductController();
-        $obj->getCatalog();
-        if ($requestMethod === "POST") {
-            if ($_POST['button'] === 'plus') {
-                $obj->getCatalog();
-                $obj->addProductToCart();
-            } elseif ($_POST['button'] === 'minus') {
-                $obj->getCatalog();
-                $obj->removeProductToCart();
+    private array $routes = [];
 
+
+    public function run(): void
+    {
+        $requestUri = $_SERVER['REQUEST_URI'];
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        if (isset($this->routes[$requestUri])) {
+            $routeMethods = $this->routes[$requestUri];
+            if (isset($routeMethods[$requestMethod])) {
+                $handler = $routeMethods[$requestMethod];
+                $class = $handler['class'];
+                $method = $handler['method'];
+                $obj = new $class();
+                $obj->$method();
+            } else {
+                echo "Метод $requestMethod не поддерживается для адреса $requestUri";
             }
+        } else {
+            require_once './../View/404.html';
         }
-    } elseif ($requestUri === '/cart') {
-        $obj = new ProductController();
-        $obj->getCart();
-    } else {
-        require_once './../View/404.html';
     }
+
+
+
+public
+function get(string $uri, string $class, string $handler): void
+{
+    $this->routes[$uri]['GET'] = [
+        'class' => $class,
+        'method' => $handler,
+    ];
+}
+
+public
+function post(string $uri, string $class, string $handler): void
+{
+    $this->routes[$uri]['POST'] = [
+        'class' => $class,
+        'method' => $handler,
+    ];
 }
 }
