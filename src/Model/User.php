@@ -16,6 +16,25 @@ class User extends Model
         $this->email=$email;
         $this->password=$password;
     }
+
+
+    public static function getOneByEmail($email):false|User
+    {
+        $stmt = self::getPDO()->prepare('SELECT * FROM users WHERE email =:email LIMIT 1');
+        $stmt->execute(['email' => $email]);
+        $data = $stmt->fetch();
+        if (!$data) {
+            return false;
+        }
+        return new User($data['id'],$data['username'],$data['email'],$data['password']);
+
+    }
+
+    public static function addInfo(string $username, string $email, string $hash): void
+    {
+        $stmt = self::getPDO()->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
+        $stmt->execute(['username' => $username, 'email' => $email, 'hash' => $hash]);
+    }
     public function getId(): int
     {
         return $this->id;
@@ -34,23 +53,5 @@ class User extends Model
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public static function getOneByEmail($email):false|User
-    {
-        $stmt = self::getPDO()->prepare('SELECT * FROM users WHERE email =:email LIMIT 1');
-        $stmt->execute(['email' => $email]);
-        $data = $stmt->fetch();
-        if ($data===false) {
-            return false;
-        }
-        return new User($data['id'],$data['username'],$data['email'],$data['password']);
-
-    }
-
-    public static function addInfo(string $username, string $email, string $hash): void
-    {
-        $stmt = self::getPDO()->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :hash)');
-        $stmt->execute(['username' => $username, 'email' => $email, 'hash' => $hash]);
     }
 }
