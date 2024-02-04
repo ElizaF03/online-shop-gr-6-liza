@@ -7,10 +7,10 @@ use Model\User;
 class UserController
 {
 private User $user;
-public function __construct()
+/*public function __construct()
 {
 $this->user= new User();
-}
+}*/
     public function getRegistrate(): void
     {
         require_once './../View/get_registrate.phtml';
@@ -24,11 +24,11 @@ $this->user= new User();
         $errors = $this->validate($_POST);
 
         if (empty($errors)) {
-            $userModel = new User();
-            $data = $userModel->lookEmail($email);
-            if ($data === false) {
+
+            $data = User::getOneByEmail($email);
+            if ($data=== false) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                $userModel->addInfo($username, $email, $hash);
+                User::addInfo($username, $email, $hash);
             } else {
                 echo 'Такой позльзователь уже зарегистрирован';
             }
@@ -103,21 +103,19 @@ $this->user= new User();
         require_once './../View/get_login.phtml';
     }
 
-    public function postLogin(): void
+    public  function postLogin(): void
     {
         $email = $_POST['email'];
         $password = $_POST['password'];
         $errors = $this->validateLogin($_POST);
         if (empty($errors)) {
-            $userModel = new User();
-            $user = $userModel->lookEmail($email);
-            if ($user === false) {
+            $user = User::getOneByEmail($email);
+            if ($user===false){
                 echo 'Пользователь не зарегистрирован';
             } else {
-                if (password_verify($password, $user['password'])) {
+                if (password_verify($password, $user->getPassword())) {
                     session_start();
-                    $_SESSION['user_id'] = $user['id'];
-
+                    $_SESSION['user_id'] = $user->getId();
                     header('Location: /catalog');
                     echo 'Авторизация прошла успешно';
                 } else {

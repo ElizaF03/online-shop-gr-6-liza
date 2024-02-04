@@ -70,7 +70,7 @@ class ProductController
             $userProduct = $userProductModel->getOne($user_id, $product_id);
             if ($_POST['button'] === 'minus') {
                 if (!empty($userProduct)) {
-                    if ($quantity[0] <= 1) {
+                    if ($quantity[0] = 1) {
                         $userProductModel->deleteProductFromCart($user_id, $product_id);
                     } else {
                         $userProductModel->minusProduct($product_id, $user_id);

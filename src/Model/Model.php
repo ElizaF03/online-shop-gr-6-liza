@@ -1,14 +1,16 @@
 <?php
+
 namespace Model;
+
 use PDO;
 
 class Model
 {
-    protected PDO $pdo;
+    protected static PDO $pdo;
 
-    public function __construct()
+    public static function getPDO(): PDO
     {
-        $this->pdo = new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username: "elizaveta", password: "qwerty");
-
+        self::$pdo = new PDO("pgsql:host=postgres; port=5432; dbname=test_db", username: "elizaveta", password: "qwerty");
+        return self::$pdo;
     }
 }
