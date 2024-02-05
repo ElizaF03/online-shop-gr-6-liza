@@ -78,7 +78,7 @@ class UserProduct extends Model
         return $this->productId;
     }
 
-    public function getQuantity(): int
+    public function getQuantity(): null|int
     {
         return $this->quantity;
     }

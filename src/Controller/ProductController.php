@@ -13,9 +13,9 @@ class ProductController
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
         }
-        $productModel = new Product();
+
         $quantityProducts = $this->countProductInCart();
-        $products = $productModel->getAll();
+        $products = Product::getAll();
         require_once './../View/catalog.phtml';
     }
 
@@ -49,9 +49,8 @@ class ProductController
                 }
             }
         }
-        $productModel = new Product();
         $quantityProducts = $this->countProductInCart();
-        $products = $productModel->getAll();
+        $products = Product::getAll();
         require_once './../View/catalog.phtml';
     }
 
@@ -64,10 +63,9 @@ class ProductController
             $product_id = $_POST['product_id'];
             $user_id = $_SESSION['user_id'];
             $userProduct =  UserProduct::getOne($user_id, $product_id);
-            $quantity = $userProduct->getQuantity();
             if ($_POST['button'] === 'minus') {
                 if (!empty($userProduct)) {
-                    if ($quantity ===1) {
+                    if ($userProduct->getQuantity() ===1) {
                         UserProduct::deleteProductFromCart($user_id, $product_id);
                     } else {
                        UserProduct::minusProduct($product_id, $user_id);
@@ -76,9 +74,8 @@ class ProductController
 
             }
         }
-        $productModel = new Product();
         $quantityProducts =  $this->countProductInCart();
-        $products = $productModel->getAll();
+        $products = Product::getAll();
         require_once './../View/catalog.phtml';
     }
 
