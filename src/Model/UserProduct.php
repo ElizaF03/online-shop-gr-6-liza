@@ -18,16 +18,16 @@ class UserProduct extends Model
         $this->quantity = $quantity;
     }
 
-    public static function getAll(int $user_id): array
+    public static function getAll(int $userId): array
     {
-        $stmt = self::getPDO()->query("SELECT * FROM user_products JOIN products ON user_products.product_id=products.id WHERE user_id = {$user_id}");
+        $stmt = self::getPDO()->query("SELECT * FROM user_products JOIN products ON user_products.product_id=products.id WHERE user_id = {$userId}");
         return $stmt->fetchAll();
     }
 
-    public static function getOne(int $user_id, int $product_id): false|UserProduct
+    public static function getOne(int $userId, int $productId): false|UserProduct
     {
         $stmt = self::getPDO()->prepare('SELECT * FROM user_products WHERE product_id =:product_id AND user_id =:user_id LIMIT 1');
-        $stmt->execute(['product_id' => $product_id, 'user_id' => $user_id]);
+        $stmt->execute(['product_id' => $productId, 'user_id' => $userId]);
         $data = $stmt->fetch();
         if (!$data) {
             return false;
@@ -36,29 +36,29 @@ class UserProduct extends Model
     }
 
 
-    public static function createProductInCart(int $user_id, int $product_id, int $quantity): void
+    public static function createProductInCart(int $userId, int $productId, int $quantity): void
     {
         $stmt = self::getPDO()->prepare('INSERT INTO user_products (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)');
-        $stmt->execute(['user_id' => $user_id, 'product_id' => $product_id, 'quantity' => $quantity]);
+        $stmt->execute(['user_id' => $userId, 'product_id' => $productId, 'quantity' => $quantity]);
     }
 
-    public static function deleteProductFromCart(int $user_id, int $product_id): void
+    public static function deleteProductFromCart(int $userId, int $productId): void
     {
-        self::getPDO()->query("DELETE FROM user_products WHERE  product_id = {$product_id} AND user_id = {$user_id} ");
+        self::getPDO()->query("DELETE FROM user_products WHERE  product_id = {$productId} AND user_id = {$userId} ");
 
     }
 
 
-    public static function addProduct(int $product_id, int $user_id): mixed
+    public static function addProduct(int $productId, int $userId): mixed
     {
-        $stmt = self::getPDO()->query("UPDATE user_products SET quantity = quantity+1  WHERE product_id = {$product_id} AND user_id = {$user_id}");
+        $stmt = self::getPDO()->query("UPDATE user_products SET quantity = quantity+1  WHERE product_id = {$productId} AND user_id = {$userId}");
         return $stmt->fetch();
 
     }
 
-    public static function minusProduct(int $product_id, int $user_id): mixed
+    public static function minusProduct(int $productId, int $userId): mixed
     {
-        $stmt = self::getPDO()->query("UPDATE user_products SET quantity = quantity-1  WHERE product_id = {$product_id} AND user_id = {$user_id}");
+        $stmt = self::getPDO()->query("UPDATE user_products SET quantity = quantity-1  WHERE product_id = {$productId} AND user_id = {$userId}");
         return $stmt->fetch();
 
     }
@@ -78,7 +78,7 @@ class UserProduct extends Model
         return $this->productId;
     }
 
-    public function getQuantity(): null|int
+    public function getQuantity(): int
     {
         return $this->quantity;
     }

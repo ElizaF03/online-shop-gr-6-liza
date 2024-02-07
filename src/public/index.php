@@ -13,7 +13,7 @@ $app->get('/login', UserController::class, 'getLogin');
 $app->get('/catalog',ProductController::class, 'getCatalog');
 $app->get('/cart',ProductController::class, 'getCart');
 
-$app->post('/registrate',UserController::class, 'postRegistrate');
+$app->post('/registrate',UserController::class, 'postRegistrate', \Request\RegistrateRequest::class);
 $app->post('/login', UserController::class, 'postLogin');
 $app->post('/remove-product', ProductController::class, 'removeProductFromCart');
 $app->post('/add-product', ProductController::class, 'addProductToCart');

@@ -2,6 +2,7 @@
 
 use Controller\ProductController;
 use Controller\UserController;
+use Request\Request;
 
 class App
 {
@@ -20,7 +21,12 @@ class App
                 $class = $handler['class'];
                 $method = $handler['method'];
                 $obj = new $class();
-                $obj->$method();
+                if(isset($handler['request'])){
+                    $request= new $handler['request']($requestMethod, $requestUri, headers_list(), $_REQUEST);
+                } else {
+                    $request = new \Request\Request($requestMethod, $requestUri, headers_list(), $_REQUEST);
+                }
+                $obj->$method($request);
             } else {
                 echo "Метод $requestMethod не поддерживается для адреса $requestUri";
             }
@@ -32,20 +38,22 @@ class App
 
 
 public
-function get(string $uri, string $class, string $handler): void
+function get(string $uri, string $class, string $handler, string $request=null): void
 {
     $this->routes[$uri]['GET'] = [
         'class' => $class,
         'method' => $handler,
+        'request'=>$request,
     ];
 }
 
 public
-function post(string $uri, string $class, string $handler): void
+function post(string $uri, string $class, string $handler, string $request=null): void
 {
     $this->routes[$uri]['POST'] = [
         'class' => $class,
         'method' => $handler,
+        'request'=>$request,
     ];
 }
 }

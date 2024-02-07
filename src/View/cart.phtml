@@ -13,7 +13,7 @@
     </div>
         <ul class="cartWrap">
 
-            <?php foreach ($products as $product):
+            <?php foreach ($userProducts as $userProduct):
 
                 ?>
 
@@ -21,13 +21,13 @@
                     <div class="infoWrap">
                         <div class="cartSection">
                             <div class="photo">
-                                <img src="<?php echo $product['img_url']; ?>" alt=""/>
+                                <img src="<?php echo $userProduct['img_url']; ?>" alt=""/>
                             </div>
 
-                            <h3><?php echo $product['name']; ?></h3>
+                            <h3><?php echo $userProduct['name']; ?></h3>
 
-                            <p><input type="text" class="qty" placeholder="<?php echo $product['quantity']; ?>"/>
-                                x <?php echo $product['price']; ?>руб</p>
+                            <p><input type="text" class="qty" placeholder="<?php echo $userProduct['quantity']; ?>"/>
+                                x <?php echo $userProduct['price']; ?>руб</p>
 
                             <div class="cartSection removeWrap">
                                 <a href="#" class="remove">x</a>
