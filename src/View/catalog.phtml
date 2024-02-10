@@ -6,7 +6,7 @@
         <div style="font-size: 30px"><a href="/cart">Cart</a> <span>
 
         <?php
-        echo $quantityProducts;
+        echo $sum;
         ?>
             </span>
         </div>
@@ -19,29 +19,27 @@
                 <div class="item  col-xs-4 col-lg-4">
 
                     <div class="thumbnail">
-                        <img class="group list-group-image" src="<?php echo $product['img_url']; ?>" alt=""/>
+                        <img class="group list-group-image" src="<?php echo $product->getImgUrl(); ?>" alt=""/>
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading">
-                                <?php echo $product['name']; ?></h4>
+                                <?php echo $product->getName(); ?></h4>
                             <p class="group inner list-group-item-text">
-                                <?php echo $product['description']; ?></p>
+                                <?php echo $product->getDescription(); ?></p>
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <p class="lead">
-                                        <?php echo $product['price']; ?> рублей</p>
+                                        <?php echo $product->getPrice(); ?> рублей</p>
                                 </div>
                                 <div class="col-xs-12 col-md-6">
                                     <div class="buttons">
                                         <form action="/remove-product" method="POST">
-                                            <input type="text" name="product_id" value="<?php echo $product['id']; ?>"
+                                            <input type="text" name="product_id" value="<?php echo $product->getId(); ?>"
                                                    hidden="hidden">
-                                            <input type="text" name="quantity" value="1" hidden="hidden">
                                             <button type="submit" class="submit" name="button" value="minus">-</button>
                                         </form>
                                         <form action="/add-product" method="POST">
-                                            <input type="text" name="product_id" value="<?php echo $product['id']; ?>"
+                                            <input type="text" name="product_id" value="<?php echo $product->getId(); ?>"
                                                    hidden="hidden">
-                                            <input type="text" name="quantity" value="1" hidden="hidden">
                                             <button type="submit" class="submit" name="button" value="plus">+</button>
                                         </form>
                                     </div>

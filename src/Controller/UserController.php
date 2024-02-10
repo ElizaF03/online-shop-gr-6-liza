@@ -4,7 +4,7 @@ namespace Controller;
 
 use Model\User;
 use Request\RegistrateRequest;
-use Request\Request;
+use Request\LoginRequest;
 
 class UserController
 {
@@ -24,7 +24,6 @@ $this->user= new User();
         $email = $_POST['email'];
         $password = $_POST['password'];
         $errors=$request->validate();
-        //$errors = $this->validate($_POST);
 
         if (empty($errors)) {
 
@@ -48,11 +47,11 @@ $this->user= new User();
         require_once './../View/get_login.phtml';
     }
 
-    public  function postLogin(): void
+    public  function postLogin(LoginRequest $request): void
     {
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $errors = $this->validateLogin($_POST);
+        $errors = $request->validate();
         if (empty($errors)) {
             $user = User::getOneByEmail($email);
             if (!$user){

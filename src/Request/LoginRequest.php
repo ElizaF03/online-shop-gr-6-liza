@@ -13,7 +13,7 @@ class LoginRequest extends Request
     {
         return $this->body['password'];
     }
-    private function validate(): array
+    public function validate(): array
     {
         $errors = [];
         if (isset($this->body['email'])) {

@@ -13,8 +13,7 @@ class ProductController
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
         }
-
-        $quantityProducts = $this->countProductInCart();
+        $sum = $this->countProductInCart();
         $products = Product::getAll();
         require_once './../View/catalog.phtml';
     }
@@ -26,8 +25,14 @@ class ProductController
             header('Location: /login');
         }
         $userId = $_SESSION['user_id'];
-        $cost = $this->countCost();
-        $userProducts = UserProduct::getAll($userId);
+        $userProducts = UserProduct::getAllByUserId($userId);
+        foreach ($userProducts as $userProduct) {
+            $ids[] = $userProduct->getProductId();
+
+        }
+        $products = Product::getAllByIds($ids);
+        $cost = $this->countCost($products, $userProducts);
+
         require_once './../View/cart.phtml';
     }
 
@@ -41,12 +46,10 @@ class ProductController
             $quantity = $_POST['quantity'];
             $userId = $_SESSION['user_id'];
             $userProduct = UserProduct::getOne($userId, $productId);
-            if ($_POST['button'] === 'plus') {
-                if (!$userProduct) {
-                    UserProduct::createProductInCart($userId, $productId, $quantity);
-                } else {
-                    UserProduct::addProduct($productId, $userId);
-                }
+            if (!$userProduct) {
+                UserProduct::createProductInCart($userId, $productId, $quantity);
+            } else {
+                UserProduct::addProduct($productId, $userId);
             }
         }
         $quantityProducts = $this->countProductInCart();
@@ -63,15 +66,12 @@ class ProductController
             $productId = $_POST['product_id'];
             $userId = $_SESSION['user_id'];
             $userProduct = UserProduct::getOne($userId, $productId);
-            if ($_POST['button'] === 'minus') {
-                if (!empty($userProduct)) {
-                    if ($userProduct->getQuantity() === 1) {
-                        UserProduct::deleteProductFromCart($userId, $productId);
-                    } else {
-                        UserProduct::minusProduct($productId, $userId);
-                    }
+            if (!empty($userProduct)) {
+                if ($userProduct->getQuantity() === 1) {
+                    UserProduct::deleteProductFromCart($userId, $productId);
+                } else {
+                    UserProduct::minusProduct($productId, $userId);
                 }
-
             }
         }
         $quantityProducts = $this->countProductInCart();
@@ -83,22 +83,27 @@ class ProductController
     public function countProductInCart(): int
     {
         $userId = $_SESSION['user_id'];
-        $productsInCart = UserProduct::getAll($userId);
+        $productsInCart = UserProduct::getAllByUserId($userId);
         $sum = 0;
-        foreach ($productsInCart as $product) {
-            $sum = $sum + $product['quantity'];
+        foreach ($productsInCart as $userProduct) {
+            $sum = $sum + $userProduct->getQuantity();
         }
         return $sum;
     }
 
-    public function countCost(): int
+    public function countCost($products, $userProducts): int
     {
-        $userId = $_SESSION['user_id'];
-        $productsInCart = UserProduct::getAll($userId);
         $sum = 0;
-        foreach ($productsInCart as $product) {
-            $price = $product['quantity'] * $product['price'];
-            $sum = $sum + $price;
+        foreach ($products as $product) {
+            $price[] = $product->getPrice();
+
+        }
+        foreach ($userProducts as $userProduct) {
+            $quantity[] = $userProduct->getQuantity();
+        }
+        $l = count($userProducts);
+        for ($i = 0; $i < $l; $i++) {
+            $sum = $sum + $quantity[$i] * $price[$i];;
         }
         return $sum;
     }

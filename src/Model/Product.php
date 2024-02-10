@@ -21,10 +21,34 @@ class  Product extends Model
         $this->img_url = $img_url;
     }
 
-    public static function getAll(): array
+    public static function getAll(): ?array
     {
         $stmt = self::getPDO()->query('SELECT * FROM products');
-        return $stmt->fetchAll();
+        $products = $stmt->fetchAll();
+        foreach ($products as $product) {
+            $data[] = new Product($product['id'], $product['name'], $product['description'], $product['price'], $product['img_url']);
+        }
+        if (empty($data)) {
+            return null;
+        } else {
+            return $data;
+        }
+    }
+
+    public static function getAllByIds(array $ids): ?array
+    {    $string = implode(", ", $ids);
+        $stmt = self::getPDO()->query("SELECT * FROM products WHERE id IN ($string)");
+
+        $products = $stmt->fetchAll();
+
+        foreach ($products as $product) {
+            $data[] = new Product($product['id'], $product['name'], $product['description'], $product['price'], $product['img_url']);
+        }
+        if (empty($data)) {
+            return null;
+        } else {
+            return $data;
+        }
     }
 
     public function getId(): int

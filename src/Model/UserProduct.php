@@ -18,10 +18,20 @@ class UserProduct extends Model
         $this->quantity = $quantity;
     }
 
-    public static function getAll(int $userId): array
+    public static function getAllByUserId(int $userId): ?array
     {
-        $stmt = self::getPDO()->query("SELECT * FROM user_products JOIN products ON user_products.product_id=products.id WHERE user_id = {$userId}");
-        return $stmt->fetchAll();
+        $stmt = self::getPDO()->prepare("SELECT * FROM user_products WHERE user_id = :user_id");
+        $stmt->execute(['user_id'=>$userId]);
+        $products= $stmt->fetchAll();
+        foreach ($products as $product){
+            $data[]=new UserProduct($product['id'], $product['user_id'], $product['product_id'], $product['quantity']);
+        }
+        if(empty($data)){
+            return null;
+        }else{
+            return $data;
+        }
+
     }
 
     public static function getOne(int $userId, int $productId): false|UserProduct

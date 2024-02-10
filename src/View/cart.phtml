@@ -4,7 +4,8 @@
         <div class="subtotal cf">
             <ul>
                 <li class="totalRow final"><span class="label">Total</span><span class="value">
-                        <?php echo $cost;
+                        <?php
+                        echo $cost;
                         ?>
                 руб</span></li>
                 <li class="totalRow"><a href="#" class="btn continue">Checkout</a></li>
@@ -13,7 +14,7 @@
     </div>
         <ul class="cartWrap">
 
-            <?php foreach ($userProducts as $userProduct):
+            <?php foreach ($products as $product):
 
                 ?>
 
@@ -21,13 +22,14 @@
                     <div class="infoWrap">
                         <div class="cartSection">
                             <div class="photo">
-                                <img src="<?php echo $userProduct['img_url']; ?>" alt=""/>
+                                <img src="<?php echo $product->getImgUrl(); ?>" alt=""/>
                             </div>
 
-                            <h3><?php echo $userProduct['name']; ?></h3>
+                            <h3><?php echo $product->getName(); ?></h3>
 
-                            <p><input type="text" class="qty" placeholder="<?php echo $userProduct['quantity']; ?>"/>
-                                x <?php echo $userProduct['price']; ?>руб</p>
+                            <p><input type="text" class="qty" placeholder="<?php
+                                //$product->getQuantity(); ?>"/>
+                                x <?php echo $product->getPrice(); ?>руб</p>
 
                             <div class="cartSection removeWrap">
                                 <a href="#" class="remove">x</a>
